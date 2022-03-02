@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import MainScreen from './src/mainScreen'; 
 import {Provider} from 'react-redux';
 // import Store from './src/Redux/Store/Store';
-import {NavigationContainer} from '@react-navigation/native';
+// import {NavigationContainer} from '@react-navigation/native';
 import thunk from 'redux-thunk';
 import {persistStore, persistReducer} from 'redux-persist';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -10,35 +10,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {applyMiddleware, createStore} from 'redux';
 import rootReducer from './src/Redux/Reducer';
 import { View , Image} from 'react-native';
-import OneSignal from 'react-native-onesignal';
-
-//OneSignal Init Code
-OneSignal.setLogLevel(6, 0);
-OneSignal.setAppId("84831d86-0a92-45ab-aae7-119e1e0a471c");
-//END OneSignal Init Code
-
-//Prompt for push on iOS
-OneSignal.promptForPushNotificationsWithUserResponse(response => {
-  console.log("Prompt response:", response);
-});
-
-//Method for handling notifications received while app in foreground
-OneSignal.setNotificationWillShowInForegroundHandler(notificationReceivedEvent => {
-  console.log("OneSignal: notification will show in foreground:", notificationReceivedEvent);
-  let notification = notificationReceivedEvent.getNotification();
-  console.log("notification: ", notification);
-  const data = notification.additionalData
-  console.log("additionalData: ", data);
-  // Complete with null means don't show a notification.
-  notificationReceivedEvent.complete(notification);
-});
-
-//Method for handling notifications opened
-OneSignal.setNotificationOpenedHandler(notification => {
-  console.log("OneSignal: notification opened:", notification);
-});
-
-
+import PushNotification from "react-native-push-notification";
+import { Alert } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
+// import notificToken from './src/Redux/Action/';
 
 // import Home from './src/Home';
 
@@ -49,7 +24,48 @@ const config = {
 const PersistReducer = persistReducer(config, rootReducer);
 const store = createStore(PersistReducer, applyMiddleware(thunk));
 const persistor = persistStore(store);
-const App = () => {
+const App = ({...props}) => {
+  const [notiToken , setNotiToken] = useState("")
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
+  }, []);
+  useEffect(()=>{
+    PushNotification.configure({
+      // (optional) Called when Token is generated (iOS and Android)
+      onRegister: function(token) {
+        console.log("TOKEN Firebase:", token);
+        setNotiToken(token.token);
+        // props.notificationToken(token)
+      },
+    
+      // (required) Called when a remote or local notification is opened or received
+      onNotification: function(notification) {
+        console.log("NOTIFICATION:", notification);
+    
+        // process the notification here
+    
+        // required on iOS only 
+        notification.finish(PushNotificationIOS.FetchResult.NoData);
+      },
+      // Android only
+      senderID: "226701611659",
+      // iOS only
+      permissions: {
+        alert: true,
+        badge: true,
+        sound: true
+      },
+      popInitialNotification: true,
+      requestPermissions: true
+    });
+    // props.notificToken(notiToken);
+    // console.log("State =======>" , notiToken);
+    //  return null
+  },[])
   useEffect(() => {
     setTimeout(() => {
       setSplash(false);
@@ -76,11 +92,11 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <NavigationContainer>
+        {/* <NavigationContainer> */}
           {/* <Text>hello</Text> */}
           <MainScreen />
           {/* <Home /> */}
-        </NavigationContainer>
+        {/* </NavigationContainer> */}
       </PersistGate>
     </Provider>
   );

@@ -13,20 +13,22 @@ import java.util.ArrayList;
 
 // @react-native-async-storage/async-storage
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+// @react-native-firebase/app
+import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
+// @react-native-firebase/messaging
+import io.invertase.firebase.messaging.ReactNativeFirebaseMessagingPackage;
 // @react-native-masked-view/masked-view
 import org.reactnative.maskedview.RNCMaskedViewPackage;
 // @react-native-picker/picker
 import com.reactnativecommunity.picker.RNCPickerPackage;
 // react-native-date-picker
 import com.henninghall.date_picker.DatePickerPackage;
-// react-native-gesture-handler
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 // react-native-onesignal
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
+// react-native-push-notification
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 // react-native-reanimated
 import com.swmansion.reanimated.ReanimatedPackage;
-// react-native-screens
-import com.swmansion.rnscreens.RNScreensPackage;
 // react-native-vector-icons
 import com.oblador.vectoricons.VectorIconsPackage;
 
@@ -75,13 +77,14 @@ public class PackageList {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
       new MainReactPackage(mConfig),
       new AsyncStoragePackage(),
+      new ReactNativeFirebaseAppPackage(),
+      new ReactNativeFirebaseMessagingPackage(),
       new RNCMaskedViewPackage(),
       new RNCPickerPackage(),
       new DatePickerPackage(),
-      new RNGestureHandlerPackage(),
       new ReactNativeOneSignalPackage(),
+      new ReactNativePushNotificationPackage(),
       new ReanimatedPackage(),
-      new RNScreensPackage(),
       new VectorIconsPackage()
     ));
   }

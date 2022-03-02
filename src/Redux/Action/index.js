@@ -8,3 +8,8 @@ export const RemoveToken = data =>{
     dispatch({type : "Remove_Token" , payload:data})
   }
 };
+// export const notificToken = data =>{
+//   return async dispatch =>{
+//     dispatch({type : "Notification_Token" , payload:data})
+//   }
+// };

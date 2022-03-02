@@ -49,6 +49,7 @@ const Home = ({navigation, ...props}) => {
   const [flat , setFlat] = useState(false);
   const [cencal , setCencal] = useState(false);
   const [empty , setEmpty] = useState(true);
+  const [add , setAdd] = useState(false)
   const axios = require('axios');
   const [today] = useState(new Date());
 
@@ -62,13 +63,25 @@ const Home = ({navigation, ...props}) => {
     console.log("Completed Your Task");
   }
  })
+//  useEffect(()=>{
+//   if (flat == true){
+//     return setEmpty(false)
+//   }
+//  },)
+
+const log = () =>{
+  setEmpty(true);
+  setAdd(true)
+  
+}
+
 
   const hide = () =>{
-    if(getdata.length >= 2){
+    if(getdata.length  > 1){
       return setEmpty(false)
-    }else if(getdata.length <= 1){
+    }else if(getdata.length === 1){
       return setEmpty(true)
-    } 
+   }
   }
   useEffect(()=>{
     hide()
@@ -117,6 +130,8 @@ const Home = ({navigation, ...props}) => {
   //   }
   useEffect(() => {
     setLoader(true);
+    // setAdd(true);
+    // setEmpty(true);
     getAllNotes();
     // setLoader(false);
   }, []);
@@ -207,6 +222,8 @@ const Home = ({navigation, ...props}) => {
       console.log('LogIn', e);
     }
     setLoader(false);
+    setAdd(false)
+    setEmpty(false)
     // axios.get(`${url} past`)
 
     // .then((response) => {
@@ -250,7 +267,12 @@ const Home = ({navigation, ...props}) => {
     // setLoader(false);
   };
   const logOutbtn = async () => {
-    props.RemoveToken(null);
+    // log()
+    setLoader(true);
+    setTimeout(()=>{
+      props.RemoveToken(null);
+      setLoader(false);
+    },2000)
   };
   const deleteBtn = e => {
     // console.log("id" ,e);
@@ -338,7 +360,7 @@ const Home = ({navigation, ...props}) => {
          if(data == ''){
               console.log(`Not Fount ${fModal}`)
               Alert.alert(
-                `Not Fount ${fModal}`
+                `Not Fount ${fModal} Task`
               )
               setFlat(false)
               getAllNotes();
@@ -384,6 +406,8 @@ const Home = ({navigation, ...props}) => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: '100%',
+                // backgroundColor:"red",
+                position:"relative"
               }}>
               <ActivityIndicator
                 size="large"
@@ -491,6 +515,7 @@ const Home = ({navigation, ...props}) => {
             }
           />}
         </View>
+        {add?null :
         <View style={{marginRight: 15}}>
           <TouchableOpacity
             onPress={() => {
@@ -524,9 +549,9 @@ const Home = ({navigation, ...props}) => {
               />
             </Animatable.Text>
           </TouchableOpacity>
-        </View>
+        </View>}
 
-        {empty? null : cencal?  
+        {empty?  null : cencal?  
         <View style={{marginLeft: 15}}>
         <TouchableOpacity
           onPress={() => {
@@ -646,7 +671,7 @@ const Home = ({navigation, ...props}) => {
               <InputText
                 value={category}
                 placeholder="Create new Category"
-                maxLength={8}
+                maxLength={10}
                 style={styles.input}
                 onChange={e => {
                   setCategory(e.nativeEvent.text);

@@ -1,11 +1,13 @@
 const initial = {
   Token: null,
-  loading:false
+  loading:false,
+  NotificationToken:null
 };
 // console.log("initial ====>" , initial);
 export const Reducers = (state = initial, action) => {
-//   const data = action;
+  //   const data = action;
   // console.log('action token======>>>',action)
+  // console.log("Init" , initial);
   switch(action.type){
     case "Remove_Token" :
       return{
@@ -21,5 +23,14 @@ export const Reducers = (state = initial, action) => {
       };
       default:
         return state;
-      }
-};
+      };
+      // switch(action.payload){
+      //  case 'Notification_Token':
+      //    return{
+      //      ...state,
+      //      NotificationToken:action.payload
+      //    };
+      //    default:
+      //      return state;
+      // };
+    };
