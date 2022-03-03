@@ -16,6 +16,7 @@ import {addToken} from './Redux/Action/';
 import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const SignIn = ({...props}) => {
@@ -90,6 +91,9 @@ const SignIn = ({...props}) => {
         // alert(data.message)
         // console.log("Data , Status" , data.data.token, status);
         props.addToken(data.data.token);
+        let Token = data.data.token 
+        let  setToken = await AsyncStorage.setItem("LoginToken" , JSON.stringify(Token));
+        console.log("SetToken" , setToken);
         setSignInEmail('')
         setSignInPass('');
       } catch (e) {

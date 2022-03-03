@@ -6,7 +6,7 @@ import {connect, Provider} from 'react-redux';
 
 
 const MainScreen = ({...props}) => {
-  console.log("Token <==========================================" , props.token);
+  // console.log("Token <==========================================" , props.token);
   if (props.token) {
     return <Home />;
   } else return <SignIn />;

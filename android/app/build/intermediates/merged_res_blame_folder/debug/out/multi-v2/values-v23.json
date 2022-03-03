@@ -4,16 +4,6 @@
             "outputFile": "/Users/mac/TodoTask/todo/Todo_Task_App/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v23/values-v23.xml",
             "map": [
                 {
-                    "source": "/Users/mac/.gradle/caches/transforms-2/files-2.1/23a733832ea4e31a732ae9362f013a27/work-runtime-2.6.0/res/values-v23/values-v23.xml",
-                    "from": {
-                        "startLines": "2,3",
-                        "startColumns": "4,4",
-                        "startOffsets": "55,121",
-                        "endColumns": "65,62",
-                        "endOffsets": "116,179"
-                    }
-                },
-                {
                     "source": "/Users/mac/.gradle/caches/transforms-2/files-2.1/060d80939c013f06c8af6417f5c25751/appcompat-1.1.0/res/values-v23/values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,20,34,35,36,37,41,42,43,44",
@@ -30,6 +20,16 @@
                         "endLines": "4,5,6,7,21,35,36,37,38,42,43,44,45,49",
                         "endColumns": "134,134,74,86,12,12,118,126,104,12,114,106,112,12",
                         "endOffsets": "314,449,524,611,1495,2391,2510,2637,2742,2966,3081,3188,3301,3531"
+                    }
+                },
+                {
+                    "source": "/Users/mac/.gradle/caches/transforms-2/files-2.1/65ca4d4395dc5cf251d3a1c77cc34773/work-runtime-2.7.1/res/values-v23/values-v23.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,121",
+                        "endColumns": "65,62",
+                        "endOffsets": "116,179"
                     }
                 },
                 {

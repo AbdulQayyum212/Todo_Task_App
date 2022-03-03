@@ -10,7 +10,8 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
-  Alert
+  Alert,
+  KeyboardAvoidingView,
 } from 'react-native';
 import Header from './Header';
 import Card from './Card';
@@ -57,23 +58,49 @@ const Home = ({navigation, ...props}) => {
   //   return new Date(b.reminderTime)
   //   console.log("New");
   // })
+  // let array = [{id: 1, date: Mar 12 2012 10:00:00 AM}{id: 2, date: Mar 8 2012 08:00:00 AM}]
 
- useState(()=>{
-  if(getdata.reminderTime == today) {
-    console.log("Completed Your Task");
-  }
- })
+  useEffect(() => {
+    setLoader(true);
+    // setAdd(true);
+    // setEmpty(true);
+    // notification();
+    // setLoader(false);
+  }, []);
+  useEffect(()=>{
+    getAllNotes();
+  });
+
+
+  
+
+
+
+
+// useEffect(()=>{
+// let name =  getdata.map(function arr(e) {
+//       return e.Category
+//   })
+//   console.log("map" , name);
+// })
+
+
+//  useState(()=>{
+//   if(getdata.reminderTime == today) {
+//     console.log("Completed Your Task");
+//   }
+//  })
 //  useEffect(()=>{
 //   if (flat == true){
 //     return setEmpty(false)
 //   }
 //  },)
 
-const log = () =>{
-  setEmpty(true);
-  setAdd(true)
+// const log = () =>{
+//   setEmpty(true);
+//   setAdd(true)
   
-}
+// }
 
 
   const hide = () =>{
@@ -86,7 +113,13 @@ const log = () =>{
   useEffect(()=>{
     hide()
   },[])
+  // useEffect(()=>{
+  //   getdata.filter(())
+  // })
   
+  // const ChechArr = () =>{
+  //   getdata.
+  // }
   
    
 // console.log(getdata.length);
@@ -128,13 +161,6 @@ const log = () =>{
   //   } catch (e) {
   //     console.log('LogIn', e);
   //   }
-  useEffect(() => {
-    setLoader(true);
-    // setAdd(true);
-    // setEmpty(true);
-    getAllNotes();
-    // setLoader(false);
-  }, []);
   // useEffect(() => {
   //   const unsubscribe = addListener('focus', () => {
   //     // Screen was focused
@@ -184,7 +210,7 @@ const log = () =>{
             },
           },
         );
-        console.log('Data , Status Task ==== >', data, status);
+        // console.log('Data , Status Task ==== >', data, status);
         getAllNotes();
         // setLoader(false)
         setSelectedValue('Pending');
@@ -217,6 +243,9 @@ const log = () =>{
       // console.log('Data ,  status ======> get', data, status);
       if (data.length) {
       }
+      // data.sort(function(a,b){
+      //   return new Date(b.reminderTime) - new Date(a.reminderTime);
+      // });
       setGetdata(data);
     } catch (e) {
       console.log('LogIn', e);
@@ -235,6 +264,29 @@ const log = () =>{
     // })
     // console.log(getdata);
   };
+  const notification = async () => {        
+    try {
+      const {data, status} = await axios.get(
+        'http://todotask.hnhcrm.xyz/api/notification',
+        {
+          headers: {
+            Authorization: `Bearer ${props.token}`,
+          },
+        },
+      );
+      // console.log('Data ,  status ======> get', data, status);
+      if (data.length) {
+      }
+      setGetdata(data);
+      getdata.sort(function(a,b){
+        return new Date(b.reminderTime) - new Date(a.reminderTime);
+      });
+    } catch (e) {
+      console.log('notification', e);
+    }
+  }
+
+  
   const EditList = e => {
     console.log('Edit', e.id);
     setButton(true);
@@ -285,7 +337,7 @@ const log = () =>{
         },
       })
       .then(res => {
-        console.log('res', res);
+        // console.log('res', res);
         getAllNotes();
         // setLoader(false);
         // setLoader(false);
@@ -318,7 +370,7 @@ const log = () =>{
         },
       )
       .then(res => {
-        console.log('res Edit ===>', res);
+        // console.log('res Edit ===>', res);
         getAllNotes();
         setModal(false);
         // setSelectedValue('');
@@ -331,7 +383,7 @@ const log = () =>{
       });
   };
   const CheckFilter = async e => {
-    console.log("filter Data " , fModal);
+    // console.log("filter Data " , fModal);
     setFilferModal(false)
     setLoader(true);
     setFlat(true);
@@ -358,7 +410,7 @@ const log = () =>{
           },
         );
          if(data == ''){
-              console.log(`Not Fount ${fModal}`)
+              // console.log(`Not Fount ${fModal}`)
               Alert.alert(
                 `Not Fount ${fModal} Task`
               )
@@ -367,11 +419,11 @@ const log = () =>{
               // setLoader(false)
         }else{
           setFilterData(data);
-          console.log("api" , data);
+          // console.log("api" , data);
           setCencal(true)
           setLoader(false)
           // console.log('Data ,  status ======> Filter', selectedValue);
-          console.log('Data ,  status ======> Filter', data);
+          // console.log('Data ,  status ======> Filter', data);
           // navigation.navigate('FilterScreen', data);
           // setSelectedValue("");
           // console.log("====> Status" , selectedValue);
@@ -380,11 +432,14 @@ const log = () =>{
           // setSelectedValue('');
         }
       } catch (e) {
-        console.log('Modal ====>', e);
+        // console.log('Modal ====>', e);
       }
     }
     // setFilterData("")
   };
+  // useEffect(()=>{
+    
+  // },[])
   return (
     <SafeAreaView>
       <View>
@@ -644,6 +699,10 @@ const log = () =>{
                 shadowRadius: 4,
                 elevation: 5,
               }}>
+                {/* <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={{flex:1}}
+                > */}
               <View
                 style={{
                   justifyContent: 'flex-end',
@@ -724,10 +783,10 @@ const log = () =>{
                 onConfirm={event => {
                   setOpen(false);
                   setDateTime(event);
-                  console.log(dateTime);
+                  // console.log(dateTime);
                 }}
                 onDateChange={t => {
-                  console.log(t);
+                  // console.log(t);
                 }}
                 onCancel={() => {
                   setOpen(false);
@@ -816,8 +875,10 @@ const log = () =>{
                   onPress={Addlist}
                 />
               )}
+            {/* </KeyboardAvoidingView> */}
             </View>
           </View>
+          
           {/* </ScrollView> */}
         </Modal>
         <Modal
